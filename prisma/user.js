@@ -3,6 +3,13 @@ import db from "./db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+
+function createJWT(user) {
+  return  jwt.sign({id: user.id, email: user.email}, JWT_ACCESS_SECRET, {
+    expiresIn: '1d'
+  });
+}
+
 export async function createUser(email, password) {
   try {
     const user = await db.user.create({
@@ -11,10 +18,7 @@ export async function createUser(email, password) {
         password: await bcrypt.hash(password, 12)
       }
     });
-
-    const token = jwt.sign({id: user.id, email: user.email}, JWT_ACCESS_SECRET, {
-      expiresIn: '1d'
-    });
+    const token = createJWT(user);
 
     return {token};
   } catch (error) {
@@ -40,9 +44,7 @@ export async function loginUser(email, password) {
       return {error: 'Invalid password'};
     }
 
-    const token = jwt.sign({id: user.id, email: user.email}, JWT_ACCESS_SECRET, {
-      expiresIn: '1d'
-    });
+    const token = createJWT(user);
 
     return {token};
   } catch (error) {
