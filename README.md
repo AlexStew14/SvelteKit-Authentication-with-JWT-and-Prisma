@@ -1,5 +1,6 @@
-# BlogCode
-## Code for articles on my site
+# SvelteKit Authentication example using JWT and Prisma
+
+Article: https://www.alex-stewart.dev/blog/user-authentication-in-sveltekit-with-jwt
 
 ### Installation
 
